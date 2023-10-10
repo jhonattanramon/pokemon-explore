@@ -23,8 +23,11 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    }
+      "bundle": "metro"
+    },
+    "plugins":[
+      "expo-router"
+    ]
+    
   }
 }

@@ -1,45 +1,39 @@
 import React from "react";
-import TW from "../../ReactWind";
+import { router, useNavigation } from "expo-router";
+import { Href } from "expo-router/build/link/href";
+import { Pokemon } from "../../typings/TypesAPIPokemon/Pokemon/Pokemon";
+import { Image, Pressable, Text, View } from "react-native";
 
 interface propsCard {
-  backgroundColor?: string;
-  name: string;
-  image?: string;
-  url?: string
+  pokemon: Pokemon;
 }
 
-interface propsHandleNagationPokemon{
-  url?: string;
+interface handleNavigationPokemon {
+  id: number;
 }
 
-const CardPokemon: React.FC<propsCard> = ({
-  backgroundColor = "bg-white",
-  name = "pokemon",
-  image = "https://freepngimg.com/thumb/pokemon/37475-6-pikachu-transparent-image-thumb.png",
-  url
-}) => {
-  function handleNavigationPokemon({url}: propsHandleNagationPokemon) {
-    console.log(url);
-    
-  }
+const CardPokemon: React.FC<propsCard> = ({ pokemon }) => {
+  const handleNavigationPokemon = ({ id }: handleNavigationPokemon) => {
+    router.push(`pokemon/${id}`);
+  };
+  const { id, name, sprites } = pokemon;
 
   return (
-    <TW.TouchableOpacity
-      onPress={() => handleNavigationPokemon({url: url})}
-      className={`w-40 h-40 ${backgroundColor} rounded-xl shadow-md`}
+    <Pressable
+      onPress={() => handleNavigationPokemon({ id: id })}
     >
-      <TW.View className="flex-1 justify-center items-center">
-        <TW.Image
-          className="w-20 h-20"
+      <View>
+        <Image
+            style={{width: 20, height: 20}}
           source={{
-            uri: `${image}`,
+            uri: `${sprites.front_default}`,
           }}
         />
-      </TW.View>
-      <TW.View className="items-center">
-        <TW.Text className="capitalize">{name}</TW.Text>
-      </TW.View>
-    </TW.TouchableOpacity>
+      </View>
+      <View>
+        <Text >{name}</Text>
+      </View>
+    </Pressable>
   );
 };
 export default CardPokemon;

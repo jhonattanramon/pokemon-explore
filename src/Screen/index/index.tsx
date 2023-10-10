@@ -1,60 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { list_paginacao } from "../../api/List_Pagination";
-import TW from "../../ReactWind";
-import handleListPagination from "../../server/handleListPagination";
-import { Pokemon } from "../../typings/TypesAPIPokemon/Pokemon/Pokemon";
-import RenderListPokemon from "../../Components/ListPokemon";
 import { View } from "react-native";
-import ScrollViewRender from "../../Components/ScrollViewRender";
-import axios, { AxiosResponse } from "axios";
-import { NamedAPIResourceList } from "../../typings/TypesAPIPokemon/RosoureLists-Pagination/Named";
-import { NamedAPIResource } from "../../typings/TypesAPIPokemon/Utility";
-
-interface handleRenderMorePokemon {
-  url: string | null;
-}
+import Components from "../../Components/Root";
+import APIPoke from "../../api/ConectAPIPokemon";
+import { NamedAPIResource } from "pokenode-ts";
 
 export default function ScreenIndex() {
-  const [listPokemon, setListPokemon] = useState<Pokemon[] | null>(null);
-  const [urlNextPage, setUrlNextPage] = useState<string | null>(null);
+  const [listPokemon, setListPokemon] = useState<NamedAPIResource[] | null>(null);
+
+ async function handleGetPokemonName(name: string) {
+    return await APIPoke.getPokemonByName("pikachu")
+      .then((pokemon) => pokemon)
+      .catch((err) => console.log(err));
+  }
+
+ async function handleGetAllPokemon(){
+  return await APIPoke.listPokemons(0,10000)
+ }
 
   useEffect(() => {
-    (async () => {
-      try {
-        const urlInitial = `https://pokeapi.co/api/v2/pokemon`;
-        const response = await handleListPagination({
-          url: urlInitial,
-        }).then((res) => res);
-
-        if (response) {
-          setListPokemon(response.list);
-          setUrlNextPage(response.next);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    })();
+    ( async () =>{
+         await handleGetAllPokemon().then( listPoke => setListPokemon(listPoke.results))
+  })()
   }, []);
 
-  const handleRenderMorePokemon = async () => {
-    if (urlNextPage) {
-      const response = await handleListPagination({ url: urlNextPage });
-      
-      if(listPokemon && response)
-      return setListPokemon([...listPokemon, ...response.list
-    ])
-    }
-  };
-
-  return listPokemon ? (
-    <ScrollViewRender functionRenderMorePokemon={handleRenderMorePokemon}>
-      <TW.View className="flex flex-row flex-wrap justify-around">
-        <RenderListPokemon listPokemon={listPokemon} />
-      </TW.View>
-    </ScrollViewRender>
-  ) : (
-    <TW.View>
-      <TW.Text>Loadding...</TW.Text>
-    </TW.View>
-  );
+  return listPokemon ? <View style={{flex: 1}}>
+      <Components.RenderListPoke data={listPokemon}/> 
+  </View> : <Components.IndicationLoading />;
 }
