@@ -1,10 +1,11 @@
 import { StyleSheet} from "react-native"
+import themes from "./theme"
 
 export const dimensions = StyleSheet.create({
     border:{
-        borderColor: "black",
-        borderWidth: 1,
-        borderRadius: 10
+        borderColor: themes["lightTheme"].secondaryColor,
+        borderWidth: 0.9,
+        borderRadius: 5
     }
 })
 

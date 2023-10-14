@@ -20,6 +20,11 @@ const headerStyleFont = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+
+  subHeadLine:{
+    fontSize: 18,
+    fontWeight: "bold"
+  },
   subTitle1: {
     fontSize: 14,
     fontWeight: "bold",

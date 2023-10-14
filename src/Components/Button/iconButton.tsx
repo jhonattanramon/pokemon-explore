@@ -1,17 +1,15 @@
 import React from "react";
 import { ColorValue, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, IconProps } from "react-native-elements";
+import styles from "./style";
 
-interface iconButton {
-  name: string;
-  color?: ColorValue | number;
-  type?: string;
-}
 
-const IconButton: React.FC<iconButton> = ({ color, name, type }) => {
+type TypeIconButton = IconProps
+
+const IconButton: React.FC<TypeIconButton> = (props) => {
   return (
-    <View>
-      <Icon style={{}} name={name} color={color} type={type} />
+    <View style={styles.iconButton}>
+      <Icon {...props} />
     </View>
   );
 };

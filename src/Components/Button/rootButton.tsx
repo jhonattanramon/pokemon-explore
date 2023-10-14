@@ -1,20 +1,22 @@
-import React, {ReactElement}from "react"
-import { Pressable, TouchableOpacityProps } from "react-native"
-import { colors } from "../../Style/colors"
-import { styleInitialButton} from "../../Style/buttonStyle"
+import React, { ReactElement, ReactNode } from "react";
+import { Pressable, PressableProps, TouchableOpacityProps } from "react-native";
+import { colors } from "../../Style/colors";
+import { styleInitialButton } from "../../Style/buttonStyle";
+import styles from "./style";
 
-interface rootButton extends TouchableOpacityProps{
-    children: ReactElement
-    onPress?: () => void
-    styleTw?: string
+interface rootButton extends PressableProps {
+  children: ReactNode,
 }
 
+const RootButton: React.FC<rootButton> = ({
+    children,
+  ...rest
+}) => {
+  return (
+    <Pressable style={styles.rootButton} {...rest}>
+      {children}
+    </Pressable>
+  );
+};
 
-const RootButton: React.FC<rootButton> = ({children,  onPress, styleTw = styleInitialButton,...props }) => {
-
- return(
-    <Pressable {...props} onPress={onPress}>{children}</Pressable>
- )
-}
-
-export default RootButton
+export default RootButton;

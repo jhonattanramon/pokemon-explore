@@ -24,7 +24,7 @@ export const graysScale = StyleSheet.create({
 })
 
 
-export const types = StyleSheet.create({
+export const typesColor = StyleSheet.create({
     bug: { color: "#a7b723"},
     dark: {color: "#75574c"},
     dragon: { color: "#7037ff"}, 
