@@ -2,7 +2,7 @@
   "expo": {
     "name": "pokemon-explore",
     "slug": "pokemon-explore",
-    "scheme": "pokemon-explore",
+    "scheme": ["pokemon-explore", "mycoolredirect"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-icon.png",

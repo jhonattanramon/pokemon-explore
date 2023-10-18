@@ -1,22 +1,25 @@
 import React, { ReactNode } from "react";
+import { routerRegister, routerSignIn } from "../api/userRouters";
+import { router } from "expo-router";
 
 interface typeUserContextProvider {
   children: ReactNode;
 }
-
 interface TypeUser {
   name: string;
   email: string;
 }
 
-interface TypesStateUser {
+
+
+interface TypeUserContext extends TypeUser {
   isAuthentcated: boolean;
-  user: TypeUser;
 }
 
-interface TypeContext extends TypesStateUser {
-    signIn: () => void,
-    signOut: () => void
+interface TypeContext extends TypeUserContext {
+  signIn: ({ email, password }: TypeDataSignIn) => Promise<unknown> ;
+  signOut: () => void;
+  signUp: ({ email, name, password }: TypeDataSignUp) => Promise<unknown>;
 }
 
 export const UserContext = React.createContext({} as TypeContext);
@@ -24,43 +27,55 @@ export const UserContext = React.createContext({} as TypeContext);
 const UserContextProvider: React.FC<typeUserContextProvider> = ({
   children,
 }) => {
-  function updateUserContext(state: TypesStateUser) {
+  function updateUserContext({email,isAuthentcated,name}: TypeUserContext) {
     setStateUserContext({
-      isAuthentcated: state.isAuthentcated,
-      user: {
-        email: state.user.email,
-        name: state.user.name,
-      },
+      isAuthentcated,
+      email,
+      name
     });
   }
 
-  function signIn() {
-    updateUserContext({
-      isAuthentcated: true,
-      user: {
-        email: "",
-        name: "",
-      },
-    });
+  async function signUp({ email, name, password }: TypeDataSignUp) {
+      return await routerRegister({
+      email,
+      name,
+      password,
+    })
+  }
+
+  async function signIn({ email, password }: TypeDataSignIn) {
+      await routerSignIn({email,password}).then( (res) =>{
+        const value = res as valuesPromiseResolve<dataUser>
+        console.log(value);
+        
+           updateUserContext({
+            email: value.data.email ,
+            name: value.data.name,
+            isAuthentcated: true, 
+          })
+      }).catch( err =>{
+        console.log("err",err)
+        })
   }
 
   function signOut() {
     updateUserContext({
       isAuthentcated: false,
-      user: {
-        email: "",
-        name: "",
-      },
+      email: "",
+      name: "",
     });
   }
 
   const [stateUserContext, setStateUserContext] =
-    React.useState<TypesStateUser>({
+    React.useState<TypeUserContext>({
       isAuthentcated: false,
-      user: { email: "", name: "" },
+      email: "",
+      name: "",
     });
   return (
-    <UserContext.Provider value={{ ...stateUserContext, signIn, signOut }}>
+    <UserContext.Provider
+      value={{ ...stateUserContext, signIn, signOut, signUp }}
+    >
       {children}
     </UserContext.Provider>
   );

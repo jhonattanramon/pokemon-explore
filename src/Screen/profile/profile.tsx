@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
 import styles from "./style";
+import { UserContext } from "../../context/userContext";
 export default function ScreenProfile() {
+
+  const { name, email } = React.useContext(UserContext)
   return (
     <View>
       <View style={styles.cardProfile}>
@@ -15,11 +18,11 @@ export default function ScreenProfile() {
 
         <View> 
             <Text style={styles.textNameUser}> 
-                profile name
+              {name}
             </Text>
 
             <Text style={styles.textEmailUser}> 
-                profile Email
+              {email}
             </Text>
         </View>
       </View>

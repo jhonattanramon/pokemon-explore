@@ -4,6 +4,7 @@ import {Text, View} from "react-native"
 import ScreenSignUp from "../Screen/singUp"
 
 const SignUp = () => {
+
     return(
         <>
         <Stack.Screen />

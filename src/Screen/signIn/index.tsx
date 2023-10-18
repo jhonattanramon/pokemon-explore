@@ -7,7 +7,17 @@ import { router } from "expo-router";
 import { headerStyleFont } from "../../Style/font";
 
 const ScreenSignIn = () => {
-    const { signIn } = useContext(UserContext)
+  const { signIn } = useContext(UserContext);
+
+  async function handleSignIn({ email, password }: TypeDataSignIn) {
+    await signIn({ email, password });
+  }
+
+  const valueForm = {
+    email: "",
+    password: "",
+  };
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View
@@ -23,16 +33,19 @@ const ScreenSignIn = () => {
           source={require("../../../assets/app-icon.png")}
         />
 
-<Text style={{
-                fontSize: headerStyleFont.headLine.fontSize,
-                fontWeight: headerStyleFont.headLine.fontWeight
-                }}> 
-                Sign In
-            </Text>
+        <Text
+          style={{
+            fontSize: headerStyleFont.headLine.fontSize,
+            fontWeight: headerStyleFont.headLine.fontWeight,
+          }}
+        >
+          Sign In
+        </Text>
 
         <View style={{ width: "100%" }}>
           <Components.Input.RootInput>
             <Components.Input.ContentInput
+              onChangeText={(text) => valueForm.email = text }
               inputMode="email"
               placeholder="Email"
               placeholderTextColor={themes["lightTheme"].secondaryColor}
@@ -41,7 +54,19 @@ const ScreenSignIn = () => {
         </View>
 
         <View style={{ width: "100%" }}>
-          <Components.Button.Root onPress={signIn}>
+          <Components.Input.RootInput>
+            <Components.Input.ContentInput
+              onChangeText={(text) => valueForm.password = text }
+              inputMode="text"
+              placeholder="password"
+              placeholderTextColor={themes["lightTheme"].secondaryColor}
+            />
+          </Components.Input.RootInput>
+        </View>
+
+
+        <View style={{ width: "100%" }}>
+          <Components.Button.Root onPress={() => {handleSignIn(valueForm)}}>
             <Components.Button.Content text="Sign In" />
           </Components.Button.Root>
         </View>
@@ -53,9 +78,7 @@ const ScreenSignIn = () => {
             width: "100%",
           }}
         >
-          <Pressable
-          onPress={() => {  router.push("/sign-up")}}
-          >
+          <Pressable onPress={() => router.push("/sign-up")}>
             <Text style={{ fontSize: 12 }}>Create Account</Text>
           </Pressable>
 
