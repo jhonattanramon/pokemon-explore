@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
     rootButton:{
         width: "100%",
         height:40,
+        paddingVertical: 5,
+        paddingHorizontal: 20,
         justifyContent:"center",
         alignItems:"center",
         backgroundColor:themes["lightTheme"].accentColor,

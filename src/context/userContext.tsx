@@ -20,6 +20,7 @@ interface TypeContext extends TypeUserContext {
   signIn: ({ email, password }: TypeDataSignIn) => Promise<unknown> ;
   signOut: () => void;
   signUp: ({ email, name, password }: TypeDataSignUp) => Promise<unknown>;
+  entryGuest: () => void
 }
 
 export const UserContext = React.createContext({} as TypeContext);
@@ -66,6 +67,14 @@ const UserContextProvider: React.FC<typeUserContextProvider> = ({
     });
   }
 
+  function entryGuest(){
+    updateUserContext({
+      isAuthentcated: true,
+      email: "",
+      name: ""
+    })
+  }
+
   const [stateUserContext, setStateUserContext] =
     React.useState<TypeUserContext>({
       isAuthentcated: false,
@@ -74,7 +83,7 @@ const UserContextProvider: React.FC<typeUserContextProvider> = ({
     });
   return (
     <UserContext.Provider
-      value={{ ...stateUserContext, signIn, signOut, signUp }}
+      value={{ ...stateUserContext, signIn, signOut, signUp, entryGuest }}
     >
       {children}
     </UserContext.Provider>

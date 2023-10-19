@@ -21,8 +21,6 @@
     "expo-linking": "^6.0.0",
     "expo-router": "^2.0.2",
     "expo-status-bar": "~1.6.0",
-    "get-ip": "^2.0.0",
-    "jr-get-ip": "^1.1.7",
     "pokenode-ts": "^1.20.0",
     "react": "18.2.0",
     "react-dom": "^18.2.0",

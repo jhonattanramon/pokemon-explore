@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { headerStyleFont } from "../../Style/font";
 
 const ScreenSignIn = () => {
-  const { signIn } = useContext(UserContext);
+  const { signIn,entryGuest } = useContext(UserContext);
 
   async function handleSignIn({ email, password }: TypeDataSignIn) {
     await signIn({ email, password });
@@ -17,6 +17,41 @@ const ScreenSignIn = () => {
     email: "",
     password: "",
   };
+
+  const FormSignIN = () => {
+    return(
+      <>
+      <View style={{ width: "100%" }}>
+      <Components.Input.RootInput>
+        <Components.Input.ContentInput
+          onChangeText={(text) => valueForm.email = text }
+          inputMode="email"
+          placeholder="Email"
+          placeholderTextColor={themes["lightTheme"].secondaryColor}
+        />
+      </Components.Input.RootInput>
+    </View>
+
+    <View style={{ width: "100%" }}>
+      <Components.Input.RootInput>
+        <Components.Input.ContentInput
+          onChangeText={(text) => valueForm.password = text }
+          inputMode="text"
+          placeholder="password"
+          placeholderTextColor={themes["lightTheme"].secondaryColor}
+        />
+      </Components.Input.RootInput>
+    </View>
+
+
+    <View style={{ width: "100%" }}>
+      <Components.Button.Root onPress={() => {handleSignIn(valueForm)}}>
+        <Components.Button.Content text="Sign In" />
+      </Components.Button.Root>
+    </View>s
+      </>
+    )
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -42,35 +77,11 @@ const ScreenSignIn = () => {
           Sign In
         </Text>
 
-        <View style={{ width: "100%" }}>
-          <Components.Input.RootInput>
-            <Components.Input.ContentInput
-              onChangeText={(text) => valueForm.email = text }
-              inputMode="email"
-              placeholder="Email"
-              placeholderTextColor={themes["lightTheme"].secondaryColor}
-            />
-          </Components.Input.RootInput>
-        </View>
-
-        <View style={{ width: "100%" }}>
-          <Components.Input.RootInput>
-            <Components.Input.ContentInput
-              onChangeText={(text) => valueForm.password = text }
-              inputMode="text"
-              placeholder="password"
-              placeholderTextColor={themes["lightTheme"].secondaryColor}
-            />
-          </Components.Input.RootInput>
-        </View>
-
-
-        <View style={{ width: "100%" }}>
-          <Components.Button.Root onPress={() => {handleSignIn(valueForm)}}>
-            <Components.Button.Content text="Sign In" />
-          </Components.Button.Root>
-        </View>
-
+          <View> 
+            <Components.Button.Root onPress={entryGuest}>
+              <Components.Button.Content text="Entry Guest"/>
+            </Components.Button.Root>
+          </View>
         <View
           style={{
             flexDirection: "row",
